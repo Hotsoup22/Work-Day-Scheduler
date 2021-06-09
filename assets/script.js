@@ -29,20 +29,36 @@ var now = DateTime.now().toLocaleString({
 //display current time
 function showCurrentTime() {
   currentDay.append(now);
-}git
+}
 
 //for loop for hourlist
 for (var i = 0; i < hourList.length; i++) {
-  //creates row by calling for a DOM eleemnt with $jquery, added class=row , timeblock.  creating the attribute of a id, assigning var timeId to the id, then looping thru var timeID with var I (loop.length)
-  var createRow = $("<div class='row time-block'>").attr("id", timeId[i]);
-  //calling .container appending createRow.
-  divContainer.append(createRow);
-  //DOM with jquery creating class=hour col-l
-  var createTime = $("<div class='hour col-1'>");
+
+  //creates row var //by calling for a DOM eleemnt with $jquery, added class=row , timeblock.  creating the attribute of a id, assigning var timeId to the id, then looping thru var timeID with var I (loop.length)
+  var divRowTimeBlock  = $("<div class='row time-block'>").attr("id", timeId[i]);
+  //calling .container appending createRowtimeblock .
+  divContainer.append(divRowTimeBlock);
+
+
+  //time col  // DOM with jquery creating class=hour col-l
+  var divHourCol = $("<div class='hour col-1'>");
   //display text from hour list in a loop= hourlist in var createTime
-  createTime.text(hourList[i]);
-  //append create row into createTime
-  createRow.append(createTime);
+  divHourCol.text(hourList[i]);
+  //append divhourcol1
+  divRowTimeBlock.append(divHourCol);
+
+
+  //User text col
+  var userText =$("<textarea class='col-10'>");
+  userText.attr("id", hourList[i]);
+  userText.text();
+  divRowTimeBlock.append(userText);
+
+  //save button
+ var buttonCol =$("<button type='button' class='saveBtn col-1'>");
+
+
+  divRowTimeBlock.append(buttonCol);
 }
 
 // Append the columns to the parent row
