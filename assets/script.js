@@ -13,12 +13,12 @@ var hourList = [
 ];
 var timeId = ["9", "10", "11", "12", "13", "14", "15", "16", "17"];
 //id current time
-var currentDay = $("#currentDay");
+var currentTime = $("#currentDay");
 
 //luxon time libary
 const DateTime = luxon.DateTime;
 //luxon var's
-var now = DateTime.now().toLocaleString({
+var timeNow = DateTime.now().toLocaleString({
   weekday: "short",
   month: "short",
   day: "2-digit",
@@ -26,19 +26,24 @@ var now = DateTime.now().toLocaleString({
   minute: "2-digit",
 }); //=> 'Thu, Apr 20, 11:27 AM'
 
+var hourTime = DateTime.now().toLocaleString({
+    hour: "2-digit"
+});
+
 //display current time
 function showCurrentTime() {
-  currentDay.append(now);
+  currentTime.append(timeNow);
 }
 
-//for loop for hourlist
-for (var i = 0; i < hourList.length; i++) {
+//creating coloums for time, text, savebtn
 
+
+//for loop length of hourlist
+for (var i = 0; i < hourList.length; i++) {
   //creates row var //by calling for a DOM eleemnt with $jquery, added class=row , timeblock.  creating the attribute of a id, assigning var timeId to the id, then looping thru var timeID with var I (loop.length)
-  var divRowTimeBlock  = $("<div class='row time-block'>").attr("id", timeId[i]);
+  var divRowTimeBlock = $("<div class='row time-block'>").attr("id", timeId[i]);
   //calling .container appending createRowtimeblock .
   divContainer.append(divRowTimeBlock);
-
 
   //time col  // DOM with jquery creating class=hour col-l
   var divHourCol = $("<div class='hour col-1'>");
@@ -47,30 +52,48 @@ for (var i = 0; i < hourList.length; i++) {
   //append divhourcol1
   divRowTimeBlock.append(divHourCol);
 
-
   //User text col
-  var userText =$("<textarea class='col-10'>");
+  var userText = $("<textarea class='col-10 '>");
   userText.attr("id", hourList[i]);
   userText.text();
   divRowTimeBlock.append(userText);
 
   //save button
- var buttonCol =$("<button type='button' class='saveBtn col-1'>");
-
-
+  var buttonCol = $("<button type='button' class='saveBtn col-1'>");
+  buttonCol.text("save");
   divRowTimeBlock.append(buttonCol);
 }
 
-// Append the columns to the parent row
+//
+ function timeColor(){
+   var hours = hourTime;
+   $(".time-block").each(function () {
+   
+
+    if  (JSON.parseInt(currentTime.attr('id')) > hours) {
+        $(userText).addClass("past");
+    } else if (currentTime.attr('id') === hours) {
+        $(userText).removeClass("past");
+        $(this).addClass("present");
+    } else (currentTime.attr('id')); {
+        $(this).removeClass("past");
+        $(this).removeClass("present");
+        $(this).addClass("future");
+    }
+    console.log(hours);
+ });
+}
+
+
 
 //run current time function
 showCurrentTime();
-
+timeColor();
 // GIVEN I am using a daily planner to create a schedule
 // WHEN I open the planner
 // ---------THEN the current day is displayed at the top of the calendar-----------------
 // WHEN I scroll down
-// THEN I am presented with timeblocks for standard business hours
+// -----THEN I am presented with timeblocks for standard business hours-------
 // WHEN I view the timeblocks for that day
 // THEN each timeblock is color coded to indicate whether it is in the past, present, or future
 // WHEN I click into a timeblock
